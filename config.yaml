@@ -1,0 +1,31 @@
+# 输入文件夹列表（数量决定布局：1=全屏, 2=左右, 3-4=田字格, 5-6=2x3, 7-9=3x3）
+input_folders:
+  - ./cam1
+  - ./cam2
+  - ./cam3
+  - ./cam4
+
+output_file: ./output/merged.mp4
+
+# 输出分辨率
+output_width: 1920
+output_height: 1080
+
+# 输出帧率
+fps: 25
+
+# 时间提取方式: "ocr" | "filename" | "metadata"
+time_extract_method: ocr
+
+# OCR 区域（左上角裁剪区域，相对于视频尺寸的比例）
+ocr_region:
+  x: 0.0
+  y: 0.0
+  w: 0.35
+  h: 0.06
+
+# 时间格式（用于 OCR 解析）
+time_format: "%Y-%m-%d %H:%M:%S"
+
+# 如果用 filename 方式，文件名中时间的正则
+filename_pattern: "(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})"
