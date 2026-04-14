@@ -1,0 +1,397 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #1a1a2e;
+    --bg2: #16213e;
+    --bg3: #0f3460;
+    --accent: #e94560;
+    --accent2: #533483;
+    --text: #eee;
+    --text2: #aaa;
+    --grid-gap: 4px;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== 顶部栏 ===== */
+.top-bar {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    background: var(--bg2);
+    border-bottom: 1px solid #333;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
+.top-bar h1 {
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+.time-display {
+    font-size: 22px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: var(--accent);
+    min-width: 200px;
+    text-align: center;
+}
+
+.playback-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.playback-controls button {
+    background: var(--bg3);
+    color: var(--text);
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.playback-controls button:hover {
+    background: var(--accent2);
+}
+
+.playback-controls button.active {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.speed-select {
+    background: var(--bg3);
+    color: var(--text);
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 6px 8px;
+    font-size: 13px;
+}
+
+.date-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+}
+
+.date-nav input[type="date"] {
+    background: var(--bg3);
+    color: var(--text);
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 13px;
+}
+
+/* ===== 视频网格 ===== */
+.video-grid {
+    flex: 1;
+    display: grid;
+    gap: var(--grid-gap);
+    padding: var(--grid-gap);
+    min-height: 0;
+    background: #000;
+}
+
+.video-cell {
+    position: relative;
+    background: #111;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-cell img,
+.video-cell video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.video-cell .cam-label {
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    z-index: 2;
+}
+
+.video-cell .no-signal {
+    color: #555;
+    font-size: 14px;
+    text-align: center;
+}
+
+.video-cell .no-signal::before {
+    content: "📷";
+    display: block;
+    font-size: 40px;
+    margin-bottom: 8px;
+    opacity: 0.3;
+}
+
+/* ===== 时间轴区域 ===== */
+.timeline-area {
+    flex-shrink: 0;
+    background: var(--bg2);
+    border-top: 1px solid #333;
+    padding: 8px 0;
+}
+
+.timeline-track {
+    display: flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 12px;
+    gap: 8px;
+}
+
+.timeline-track .track-label {
+    width: 60px;
+    font-size: 11px;
+    color: var(--text2);
+    text-align: right;
+    flex-shrink: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.timeline-track .track-bar {
+    flex: 1;
+    height: 18px;
+    background: #222;
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.track-bar .segment {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    border-radius: 2px;
+    min-width: 2px;
+}
+
+/* 每个摄像头不同颜色 */
+.track-bar[data-cam="0"] .segment { background: #e94560; }
+.track-bar[data-cam="1"] .segment { background: #0ea5e9; }
+.track-bar[data-cam="2"] .segment { background: #22c55e; }
+.track-bar[data-cam="3"] .segment { background: #f59e0b; }
+.track-bar[data-cam="4"] .segment { background: #a855f7; }
+.track-bar[data-cam="5"] .segment { background: #ec4899; }
+.track-bar[data-cam="6"] .segment { background: #14b8a6; }
+.track-bar[data-cam="7"] .segment { background: #f97316; }
+.track-bar[data-cam="8"] .segment { background: #6366f1; }
+
+/* 时间刻度 */
+.time-ruler {
+    display: flex;
+    align-items: flex-start;
+    height: 22px;
+    padding: 0 12px;
+    gap: 8px;
+}
+
+.time-ruler .ruler-label-spacer {
+    width: 60px;
+    flex-shrink: 0;
+}
+
+.time-ruler .ruler-bar {
+    flex: 1;
+    position: relative;
+    height: 22px;
+}
+
+.ruler-bar .tick {
+    position: absolute;
+    top: 0;
+    font-size: 10px;
+    color: #666;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.ruler-bar .tick::before {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 6px;
+    background: #444;
+    margin: 0 auto 2px;
+}
+
+/* 播放游标 */
+.cursor-line {
+    position: absolute;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: var(--accent);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.cursor-line::after {
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: -5px;
+    width: 12px;
+    height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+}
+
+/* 全局游标覆盖层 (在所有轨道上显示竖线) */
+.global-cursor {
+    position: absolute;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba(233, 69, 96, 0.6);
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* ===== 缩放控制 ===== */
+.zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+}
+
+.zoom-controls button {
+    background: var(--bg3);
+    color: var(--text);
+    border: 1px solid #444;
+    border-radius: 3px;
+    padding: 3px 10px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.zoom-controls button:hover {
+    background: #444;
+}
+
+.zoom-controls span {
+    font-size: 11px;
+    color: var(--text2);
+    min-width: 80px;
+    text-align: center;
+}
+
+/* ===== 加载指示 ===== */
+.loading-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    font-size: 18px;
+}
+
+.loading-overlay.hidden {
+    display: none;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #333;
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-right: 12px;
+}
+
+/* ===== 时间轴容器可横向滚动 ===== */
+.timeline-scroll-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: relative;
+}
+
+.timeline-inner {
+    min-width: 100%;
+    position: relative;
+}
+
+/* ===== 拖拽选择高亮 ===== */
+.track-bar .hover-time {
+    position: absolute;
+    top: -24px;
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    transform: translateX(-50%);
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 20;
+    display: none;
+}
+
+.track-bar:hover .hover-time {
+    display: block;
+}
+
+/* ===== 全屏某个摄像头 ===== */
+.video-cell.fullscreen-cell {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 50;
+    border-radius: 0;
+}
+
+/* ===== 滚动条美化 ===== */
+::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #1a1a2e;
+}
+::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}

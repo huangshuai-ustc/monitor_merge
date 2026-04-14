@@ -1,48 +1,16 @@
-# 输入文件夹列表（数量决定布局：1=全屏, 2=左右, 3-4=田字格, 5-6=2x3, 7-9=3x3）
-input_folders:
-  - ./20250613/家后
-  - ./20250613/南地
-  - ./20250613/南地前
+cameras:
+  - name: "南地"
+    folder: "./20250613/南地"
+  - name: "南地前"
+    folder: "./20250613/南地前"
+  - name: "家后"
+    folder: "./20250613/家后"
 
-output_file: ./output/merged.mp4
+# 文件名格式 - 用正则捕获开始和结束时间
+# 你的格式: video_0400_0_10_20250613113832_20250613115449.mp4
+filename_pattern: "_(\\d{14})_(\\d{14})\\.mp4$"
+time_format: "%Y%m%d%H%M%S"
 
-# 输出分辨率
-output_width: 1920
-output_height: 1080
-
-# 输出帧率
-fps: 25
-
-# 编码优化选项
-# crf: 压缩质量，数值越小质量越好文件越大（推荐范围: 23-32）
-#       23 = 高质量（文件较大）
-#       28 = 中等质量（平衡）
-#       32 = 高压缩率（文件最小）
-crf: 28
-
-# preset: 编码速度，ultrafast/superfast/veryfast/faster/fast/medium/slow/slower/veryslow
-#         faster = 更快但稍大
-#         slow = 更慢但更小
-preset: faster
-
-# 时间提取方式: "ocr" | "filename" | "metadata"
-time_extract_method: ocr
-
-# 开始时间过滤（只合并此时间之后的视频）
-# 格式: YYYY-MM-DD HH:MM:SS
-# 例如: "2024-01-01 08:00:00"
-# 留空则不过滤
-start_time: ""
-
-# OCR 区域（左上角裁剪区域，相对于视频尺寸的比例）
-ocr_region:
-  x: 0.0
-  y: 0.0
-  w: 0.35
-  h: 0.06
-
-# 时间格式（用于 OCR 解析）
-time_format: "%Y-%m-%d %H:%M:%S"
-
-# 如果用 filename 方式，文件名中时间的正则
-filename_pattern: '(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})'
+server:
+  host: "0.0.0.0"
+  port: 8080

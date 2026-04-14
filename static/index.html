@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>监控回放系统</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <!-- 加载遮罩 -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <span>正在扫描视频文件...</span>
+    </div>
+
+    <!-- 顶部控制栏 -->
+    <div class="top-bar">
+        <h1>🎬 监控回放</h1>
+
+        <!-- 当前时间 -->
+        <div id="current-time-display" class="time-display">--:--:--</div>
+
+        <!-- 播放控制 -->
+        <div class="playback-controls">
+            <button id="btn-prev-frame" title="上一帧 (←)">⏮</button>
+            <button id="btn-play" title="播放/暂停 (空格)">▶</button>
+            <button id="btn-stop" title="停止">⏹</button>
+            <button id="btn-next-frame" title="下一帧 (→)">⏭</button>
+
+            <!-- 播放速度 -->
+            <select id="speed-select" class="speed-select" title="播放速度">
+                <option value="0.25">0.25x</option>
+                <option value="0.5">0.5x</option>
+                <option value="1" selected>1x</option>
+                <option value="2">2x</option>
+                <option value="4">4x</option>
+                <option value="8">8x</option>
+                <option value="16">16x</option>
+                <option value="30">30x</option>
+                <option value="60">60x</option>
+            </select>
+
+            <!-- 播放模式 -->
+            <select id="mode-select" class="speed-select" title="播放模式">
+                <option value="frame">帧截图模式</option>
+                <option value="video">原始视频模式</option>
+            </select>
+        </div>
+
+        <!-- 日期选择 -->
+        <div class="date-nav">
+            <input type="date" id="date-input" title="跳转到指定日期">
+        </div>
+    </div>
+
+    <!-- 视频网格 -->
+    <div id="video-grid" class="video-grid"></div>
+
+    <!-- 时间轴 -->
+    <div id="timeline-container"></div>
+
+    <!-- 脚本 -->
+    <script src="/static/timeline.js"></script>
+    <script src="/static/app.js"></script>
+
+</body>
+</html>
